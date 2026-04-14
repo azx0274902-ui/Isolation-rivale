@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)file:///C:/Users/Nicolas/Downloads/isolation-rivale-app_3.html -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0c0c0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Isolation Rivale">
+<title>Isolation Rivale</title>
+<link href="./isolation rivale 0_files/css2" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0c0a;--surface:#161614;--card:#1e1e1b;--card2:#252522;
+  --border:#2c2c28;--border2:#383834;
+  --orange:#E8922A;--orange2:#F5A843;--orange-dim:rgba(232,146,42,0.13);--orange-border:rgba(232,146,42,0.3);
+  --white:#f2f1ec;--muted:#606058;--muted2:#909088;
+  --green:#30D158;--green-dim:rgba(48,209,88,0.12);--green-border:rgba(48,209,88,0.25);
+  --red:#FF453A;--red-dim:rgba(255,69,58,0.12);--red-border:rgba(255,69,58,0.25);
+  --blue:#0A84FF;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{height:100%;background:var(--bg)}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--white);-webkit-font-smoothing:antialiased;overscroll-behavior:none;font-size:16px}
+.app{max-width:430px;margin:0 auto;min-height:100vh;padding-bottom:88px}
+
+/* TOPBAR */
+.topbar{background:rgba(22,22,20,0.96);border-bottom:1px solid var(--border);padding:max(env(safe-area-inset-top),14px) 18px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.logo{display:flex;align-items:center;gap:11px}
+.logo-badge{width:42px;height:42px;border-radius:10px;background:var(--card2);border:1.5px solid var(--orange-border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-text .l1{font-size:17px;font-weight:800;color:var(--white);letter-spacing:-0.3px;line-height:1.1}
+.logo-text .l2{font-size:10px;font-weight:700;color:var(--orange);letter-spacing:0.14em;text-transform:uppercase;margin-top:2px}
+.topbar-right .r1{font-size:13px;font-weight:600;color:var(--white);text-align:right}
+.topbar-right .r2{font-size:11px;color:var(--muted2);text-align:right;margin-top:1px}
+
+/* NAV */
+.nav{background:rgba(22,22,20,0.97);border-top:1px solid var(--border);position:fixed;bottom:0;left:0;right:0;z-index:100;display:grid;grid-template-columns:repeat(6,1fr);padding-bottom:env(safe-area-inset-bottom,0);max-width:430px;margin:0 auto;backdrop-filter:blur(20px)}
+.nb{display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 2px 7px;font-size:9px;font-weight:700;letter-spacing:0.02em;color:var(--muted2);background:none;border:none;cursor:pointer;border-top:2px solid transparent;transition:color 0.15s;font-family:'Inter',sans-serif}
+.nb.active{color:var(--orange);border-top-color:var(--orange)}
+.nb svg{width:20px;height:20px;stroke-width:1.8}
+
+/* PAGES */
+.page{display:none;padding:18px}
+.page.active{display:block;animation:fadeup 0.2s ease}
+@keyframes fadeup{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* PAGE HEADER */
+.ph{margin-bottom:18px}
+.ph-title{font-size:24px;font-weight:800;letter-spacing:-0.5px;color:var(--white)}
+.ph-title em{color:var(--orange);font-style:normal}
+.ph-sub{font-size:13px;color:var(--muted2);margin-top:3px;font-weight:500}
+
+/* PERIOD TABS */
+.ptabs{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:18px;background:var(--card);border-radius:12px;padding:4px}
+.ptab{padding:10px;text-align:center;font-size:13px;font-weight:600;border-radius:9px;cursor:pointer;color:var(--muted2);background:none;border:none;font-family:'Inter',sans-serif;transition:all 0.15s}
+.ptab.active{background:var(--orange);color:#1a1000;font-weight:700}
+
+/* METRIC GRIDS */
+.mg2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.mg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+.metric{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px}
+.metric.accent{background:var(--orange-dim);border-color:var(--orange-border)}
+.metric.green{background:var(--green-dim);border-color:var(--green-border)}
+.metric.red{background:var(--red-dim);border-color:var(--red-border)}
+.m-lbl{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:7px}
+.m-val{font-size:26px;font-weight:800;letter-spacing:-0.5px;line-height:1;color:var(--white)}
+.m-val.orange{color:var(--orange)}
+.m-val.green{color:var(--green)}
+.m-val.red{color:var(--red)}
+.m-val.sm{font-size:20px}
+.m-sub{font-size:11px;color:var(--muted2);margin-top:5px;font-weight:500}
+
+/* NET BOX */
+.net-box{border-radius:14px;padding:18px;margin-bottom:12px}
+.net-box.pos{background:var(--green-dim);border:1px solid var(--green-border)}
+.net-box.neg{background:var(--red-dim);border:1px solid var(--red-border)}
+.net-lbl{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:7px}
+.net-lbl.pos{color:var(--green)}
+.net-lbl.neg{color:var(--red)}
+.net-amount{font-size:40px;font-weight:800;letter-spacing:-1px;line-height:1}
+.net-amount.pos{color:var(--green)}
+.net-amount.neg{color:var(--red)}
+.net-parts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}
+.net-part{background:rgba(0,0,0,0.2);border-radius:9px;padding:10px}
+.np-lbl{font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:4px}
+.np-val{font-size:15px;font-weight:700;color:var(--white)}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px}
+.card-lbl{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:14px}
+
+/* DATA ROWS */
+.rows{display:flex;flex-direction:column}
+.row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border)}
+.row:last-child{border-bottom:none}
+.r-lbl{font-size:14px;color:var(--muted2);font-weight:500}
+.r-val{font-size:14px;font-weight:700;color:var(--white)}
+.r-val.orange{color:var(--orange)}
+.r-val.green{color:var(--green)}
+.r-val.red{color:var(--red)}
+.row.total .r-lbl{font-size:15px;font-weight:700;color:var(--white)}
+.row.total .r-val{font-size:16px}
+
+/* FORM */
+.field{margin-bottom:14px}
+.fl{display:block;font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted2);margin-bottom:7px}
+.field input,.field select,.field textarea{width:100%;padding:13px 15px;background:var(--card2);border:1px solid var(--border2);border-radius:11px;color:var(--white);font-size:16px;font-family:'Inter',sans-serif;-webkit-appearance:none;appearance:none;transition:border-color 0.15s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--orange)}
+.field select option{background:var(--card2)}
+.field textarea{height:76px;resize:none;line-height:1.5}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.field-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
+
+/* BUTTONS */
+.btn{width:100%;padding:15px;border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:opacity 0.15s,transform 0.1s}
+.btn:active{transform:scale(0.97);opacity:0.85}
+.btn-orange{background:var(--orange);color:#1a1000}
+.btn-outline{background:transparent;color:var(--orange);border:1.5px solid var(--orange-border)}
+.btn-red{background:var(--red-dim);color:var(--red);border:1px solid var(--red-border)}
+.btn-sm{padding:10px 16px;font-size:13px;width:auto;border-radius:9px}
+.btn-ghost{background:none;border:none;color:var(--muted2);font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;padding:4px 0}
+
+/* CALC BOX */
+.calc-box{background:var(--card2);border:1px solid var(--border2);border-radius:11px;padding:14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.cb-lbl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted2)}
+.cb-val{font-size:30px;font-weight:800;letter-spacing:-0.5px}
+
+/* LIVE BOX */
+.live-box{background:var(--orange-dim);border:1px solid var(--orange-border);border-radius:13px;padding:18px;margin:14px 0}
+.lb-lbl{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);margin-bottom:7px}
+.lb-val{font-size:42px;font-weight:800;color:var(--orange2);letter-spacing:-1px;line-height:1}
+.lb-detail{font-size:12px;color:var(--muted2);margin-top:7px;font-weight:500}
+
+/* LIST ITEMS */
+.li{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px;margin-bottom:10px}
+.li-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px}
+.li-name{font-size:16px;font-weight:700;color:var(--white)}
+.li-amount{font-size:19px;font-weight:800;color:var(--orange);letter-spacing:-0.3px;white-space:nowrap;margin-left:10px}
+.li-meta{font-size:12px;color:var(--muted2);line-height:1.6;font-weight:500}
+.li-badges{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.badge{padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-orange{background:var(--orange-dim);color:var(--orange2)}
+.badge-gray{background:rgba(255,255,255,0.06);color:var(--muted2)}
+.badge-green{background:var(--green-dim);color:var(--green)}
+.badge-red{background:var(--red-dim);color:var(--red)}
+
+/* PHOTO GRID */
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.photo-thumb{width:100%;aspect-ratio:1;border-radius:8px;object-fit:cover;background:var(--card2);border:1px solid var(--border)}
+.photo-add{width:100%;aspect-ratio:1;border-radius:8px;background:var(--card2);border:1px dashed var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px;color:var(--muted)}
+
+/* EXPENSE ROWS */
+.exp-group{margin-bottom:10px}
+.exp-gh{display:flex;justify-content:space-between;align-items:center;padding:9px 0 8px;border-bottom:1px solid var(--border)}
+.exp-gdate{font-size:12px;font-weight:700;color:var(--muted2);text-transform:capitalize}
+.exp-gtotal{font-size:13px;font-weight:700;color:var(--red)}
+.exp-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.exp-row:last-child{border-bottom:none}
+.exp-name{font-size:14px;font-weight:600;color:var(--white)}
+.exp-cat{font-size:11px;color:var(--muted2);margin-top:2px}
+.exp-amt{font-size:15px;font-weight:700;color:var(--red)}
+
+/* TIME ITEM */
+.ti{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px;margin-bottom:10px}
+.ti-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.ti-name{font-size:15px;font-weight:700;color:var(--white)}
+.ti-h{font-size:22px;font-weight:800;color:var(--orange);letter-spacing:-0.3px}
+.ti-detail{font-size:12px;color:var(--muted2);font-weight:500}
+
+/* GAS HISTORY */
+.gas-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border)}
+.gas-row:last-child{border-bottom:none}
+
+/* STOCK BAR */
+.sbar-wrap{margin-top:12px}
+.sbar-info{display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--muted2);margin-bottom:5px}
+.sbar{height:6px;background:var(--border2);border-radius:3px;overflow:hidden}
+.sbar-fill{height:100%;border-radius:3px;transition:width 0.4s,background 0.4s}
+
+/* CHART */
+.chart-wrap{position:relative;width:100%;height:200px;margin-top:4px}
+
+/* REMBOURSEMENT MICHEL */
+.michel-box{background:var(--card2);border:1px solid var(--border2);border-radius:12px;padding:14px;margin-bottom:12px}
+.michel-progress{height:8px;background:var(--border2);border-radius:4px;overflow:hidden;margin-top:10px}
+.michel-fill{height:100%;border-radius:4px;background:var(--orange);transition:width 0.5s}
+
+/* ALERT */
+.alert{background:var(--orange-dim);border-left:3px solid var(--orange);border-radius:0 10px 10px 0;padding:13px 15px;font-size:13px;font-weight:500;color:var(--orange2);margin-bottom:14px;line-height:1.5}
+.alert-red{background:var(--red-dim);border-left:3px solid var(--red);border-radius:0 10px 10px 0;padding:13px 15px;font-size:13px;font-weight:500;color:var(--red);margin-bottom:14px;line-height:1.5}
+
+/* RAPPELS */
+.rappel-item{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border)}
+.rappel-item:last-child{border-bottom:none}
+.rappel-nom{font-size:14px;font-weight:600;color:var(--white)}
+.rappel-date{font-size:12px;color:var(--muted2);margin-top:2px}
+.rappel-badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.rappel-ok{background:var(--green-dim);color:var(--green)}
+.rappel-warn{background:var(--orange-dim);color:var(--orange)}
+.rappel-urgent{background:var(--red-dim);color:var(--red)}
+
+/* PARAMS */
+.param-section{margin-bottom:20px}
+.param-title{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+/* SECTION DIV */
+.sdiv{display:flex;align-items:center;gap:10px;margin:18px 0 14px}
+.sdiv-line{flex:1;height:1px;background:var(--border)}
+.sdiv-lbl{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+
+/* TOAST */
+.toast{position:fixed;bottom:98px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:100px;font-size:14px;font-weight:700;display:none;z-index:300;white-space:nowrap;font-family:'Inter',sans-serif}
+.toast.ok{background:var(--green);color:#001a0a}
+.toast.err{background:var(--red);color:#fff}
+
+/* EMPTY */
+.empty{text-align:center;padding:48px 16px;color:var(--muted2)}
+.empty-icon{font-size:38px;margin-bottom:12px;opacity:0.3}
+.empty-text{font-size:14px;font-weight:500}
+
+/* PERTE ITEM */
+.perte-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.perte-row:last-child{border-bottom:none}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-badge">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <path d="M14 2L26 10V26H2V10L14 2Z" fill="#252522" stroke="#E8922A" stroke-width="1.2"></path>
+        <rect x="9" y="13" width="3" height="10" fill="#f2f1ec" rx="0.5"></rect>
+        <path d="M9 13 Q9 10 12 10 L16 10 Q19 10 19 13 Q19 16 16 16 L12 16" stroke="#f2f1ec" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+        <line x1="12.5" y1="16" x2="19" y2="23" stroke="#E8922A" stroke-width="2.8" stroke-linecap="round"></line>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <div class="l1">Isolation Rivale</div>
+      <div class="l2">Uréthane</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="r1" id="top-day">mardi</div>
+    <div class="r2" id="top-date">14 avril 2026</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="page-dash" class="page active">
+  <div id="dash-alerts"></div>
+  <div class="ptabs">
+    <button class="ptab active" onclick="setPeriod(&#39;day&#39;,this)">Aujourd'hui</button>
+    <button class="ptab" onclick="setPeriod(&#39;week&#39;,this)">Semaine</button>
+    <button class="ptab" onclick="setPeriod(&#39;month&#39;,this)">Mois</button>
+  </div>
+  <div class="mg2">
+    <div class="metric accent"><div class="m-lbl">Revenus</div><div class="m-val orange" id="d-rev">0 $</div><div class="m-sub" id="d-rev-sub">0 contrats</div></div>
+    <div class="metric"><div class="m-lbl">Dépenses totales</div><div class="m-val red" id="d-dep">0 $</div><div class="m-sub">variables</div></div>
+  </div>
+  <div class="mg3">
+    <div class="metric"><div class="m-lbl">Diesel</div><div class="m-val sm" id="d-gas">0,00 $</div><div class="m-sub" id="d-km">0 km</div></div>
+    <div class="metric"><div class="m-lbl">Employés</div><div class="m-val sm" id="d-emp-h">0.0h</div><div class="m-sub" id="d-emp-pay">0 $</div></div>
+    <div class="metric"><div class="m-lbl">Contrats</div><div class="m-val orange" id="d-count">0</div><div class="m-sub">chantiers</div></div>
+  </div>
+  <div id="d-net"><div class="net-box pos"><div class="net-lbl pos">Profit net</div><div class="net-amount pos">0 $</div><div class="net-parts"><div class="net-part"><div class="np-lbl">Nicolas (45%)</div><div class="np-val">0 $</div></div><div class="net-part"><div class="np-lbl">Miro (45%)</div><div class="np-val">0 $</div></div><div class="net-part"><div class="np-lbl">Michel (10%)</div><div class="np-val">0 $</div></div></div></div></div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-lbl">Évolution mensuelle</div><div class="sdiv-line"></div></div>
+  <div class="card">
+    <div class="chart-wrap"><canvas id="chart-mois" role="img" aria-label="Évolution du profit net mensuel"></canvas></div>
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-lbl">Remboursement Michel</div><div class="sdiv-line"></div></div>
+  <div class="michel-box">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div><div style="font-size:14px;font-weight:700;color:var(--white)">Michel Charron</div><div style="font-size:12px;color:var(--muted2);margin-top:2px">Financement équipement</div></div>
+      <div style="text-align:right"><div style="font-size:18px;font-weight:800;color:var(--orange)" id="michel-reste">150&nbsp;000 $</div><div style="font-size:11px;color:var(--muted2);margin-top:2px">restant</div></div>
+    </div>
+    <div class="michel-progress"><div class="michel-fill" id="michel-fill" style="width:0%"></div></div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted2);margin-top:6px;font-weight:500">
+      <span id="michel-payé">0 $ payé</span><span id="michel-total">sur 150&nbsp;000 $</span>
+    </div>
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-lbl">Stock mousse</div><div class="sdiv-line"></div></div>
+  <div class="card">
+    <div class="rows">
+      <div class="row"><span class="r-lbl">Kits utilisés (période)</span><span class="r-val" id="d-kits">0.0</span></div>
+      <div class="row"><span class="r-lbl">Coût matière</span><span class="r-val red" id="d-mousse">0 $</span></div>
+      <div class="row"><span class="r-lbl">PC appliqués</span><span class="r-val" id="d-pc">0 pc</span></div>
+      <div class="row"><span class="r-lbl">Prévision épuisement</span><span class="r-val orange" id="d-prevision">Épuisé</span></div>
+    </div>
+    <div class="sbar-wrap">
+      <div class="sbar-info"><span>Stock restant</span><span id="d-stock-lbl" style="color:var(--orange)">0.0 kits restants</span></div>
+      <div class="sbar"><div class="sbar-fill" id="d-stock-fill" style="width: 0%; background: rgb(255, 69, 58);"></div></div>
+    </div>
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-lbl">Charges fixes mensuelles</div><div class="sdiv-line"></div></div>
+  <div class="card">
+    <div class="rows">
+      <div class="row"><span class="r-lbl">Bail camion Proleasing</span><span class="r-val red" id="p-bail">1&nbsp;095 $</span></div>
+      <div class="row"><span class="r-lbl">Comptable (Nic + Miro)</span><span class="r-val red" id="p-compta">1&nbsp;000 $</span></div>
+      <div class="row"><span class="r-lbl">Remboursement Michel</span><span class="r-val red" id="p-michel">800 $</span></div>
+      <div class="row"><span class="r-lbl">Assurance</span><span class="r-val red" id="p-assurance">450 $</span></div>
+      <div class="row"><span class="r-lbl">Entretien équipement</span><span class="r-val red" id="p-entretien">200 $</span></div>
+      <div class="row total"><span class="r-lbl">Total charges fixes</span><span class="r-val red" id="p-total-fixes">3&nbsp;545 $</span></div>
+    </div>
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-lbl">Rappels &amp; échéances</div><div class="sdiv-line"></div></div>
+  <div class="card"><div id="rappels-list"><div class="empty"><div class="empty-text">Aucun rappel — ajouter dans Réglages</div></div></div></div>
+</div>
+
+<!-- CLIENTS -->
+<div id="page-client" class="page">
+  <div class="ph"><div class="ph-title">Nouveau <em>chantier</em></div><div class="ph-sub">Enregistrer un client et son contrat</div></div>
+  <div class="card">
+    <div class="card-lbl">Informations client</div>
+    <div class="field"><label class="fl">Nom du client *</label><input type="text" id="c-nom" placeholder="Jean Tremblay" autocomplete="off"></div>
+    <div class="field"><label class="fl">Adresse</label><input type="text" id="c-adresse" placeholder="123 rue des Érables, Brossard"></div>
+    <div class="field-row">
+      <div class="field"><label class="fl">Ville</label><input type="text" id="c-ville" placeholder="Brossard"></div>
+      <div class="field"><label class="fl">Téléphone</label><input type="tel" id="c-tel" placeholder="514-000-0000" inputmode="tel"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-lbl">Détails du contrat</div>
+    <div class="field-row">
+      <div class="field"><label class="fl">Date *</label><input type="date" id="c-date"></div>
+      <div class="field"><label class="fl">Profit net ($) *</label><input type="number" id="c-profit" placeholder="1000" inputmode="numeric"></div>
+    </div>
+    <div class="field"><label class="fl">Type de travaux</label>
+      <select id="c-type">
+        <option value="">-- Sélectionner --</option>
+        <option>Sous-sol</option><option>Toit / plafond</option><option>Murs extérieurs</option>
+        <option>Vide sanitaire</option><option>Garage</option><option>Commercial</option>
+        <option>Agricole</option><option>Autre</option>
+      </select>
+    </div>
+    <div class="field-row">
+      <div class="field"><label class="fl">Pieds carrés</label><input type="number" id="c-pc" placeholder="500" inputmode="numeric"></div>
+      <div class="field"><label class="fl">Épaisseur (po)</label><input type="number" id="c-ep" placeholder="2" step="0.5" inputmode="decimal"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label class="fl">Kits mousse</label><input type="number" id="c-kits" placeholder="0.5" step="0.25" inputmode="decimal"></div>
+      <div class="field"><label class="fl">Durée (heures)</label><input type="number" id="c-duree" placeholder="6" inputmode="numeric"></div>
+    </div>
+    <div class="field"><label class="fl">Notes</label><textarea id="c-notes" placeholder="Accès, particularités, suivi..."></textarea></div>
+  </div>
+  <div class="card">
+    <div class="card-lbl">Photos du chantier</div>
+    <div class="photo-grid" id="photo-preview"></div>
+    <input type="file" id="photo-input" accept="image/*" multiple="" style="display:none" onchange="addPhotos(this)">
+    <button class="btn btn-outline" style="margin-top:10px" onclick="document.getElementById(&#39;photo-input&#39;).click()">Ajouter des photos</button>
+  </div>
+  <button class="btn btn-orange" onclick="saveClient()" style="margin-bottom:12px">Enregistrer le chantier</button>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-lbl">Chantiers du mois</div><div class="sdiv-line"></div></div>
+  <div id="client-list"><div class="empty"><div class="empty-icon">🏠</div><div class="empty-text">Aucun chantier ce mois</div></div></div>
+</div>
+
+<!-- DÉPENSES -->
+<div id="page-dep" class="page">
+  <div class="ph"><div class="ph-title">Dépenses <em>&amp; pertes</em></div><div class="ph-sub">Matériaux, équipement, gaspillage</div></div>
+  <div class="card">
+    <div class="card-lbl">Ajouter une dépense</div>
+    <div class="field"><label class="fl">Description *</label><input type="text" id="dep-desc" placeholder="Ex: Ruban, cartouches, gants..." autocomplete="off"></div>
+    <div class="field-row">
+      <div class="field"><label class="fl">Montant ($) *</label><input type="number" id="dep-montant" placeholder="45.00" step="0.01" inputmode="decimal"></div>
+      <div class="field"><label class="fl">Catégorie</label>
+        <select id="dep-cat">
+          <option>Matériaux</option><option>Équipement</option><option>Sécurité (EPI)</option>
+          <option>Outils</option><option>Livraison</option><option>Perte / Gaspillage</option><option>Autre</option>
+        </select>
+      </div>
+    </div>
+    <div class="field"><label class="fl">Date</label><input type="date" id="dep-date"></div>
+    <button class="btn btn-orange" onclick="saveDep()">Ajouter</button>
+  </div>
+
+  <div class="card">
+    <div class="card-lbl">Mise à jour stock mousse</div>
+    <div class="field-row">
+      <div class="field"><label class="fl">Stock actuel (kits)</label><input type="number" id="dep-stock" placeholder="5" step="0.5" inputmode="decimal"></div>
+      <div class="field" style="display:flex;align-items:flex-end"><button class="btn btn-outline btn-sm" onclick="updateStock()" style="width:100%">Mettre à jour</button></div>
+    </div>
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-lbl">Dépenses du mois</div><div class="sdiv-line"></div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted2)">Total du mois</div>
+      <div style="font-size:24px;font-weight:800;color:var(--red);letter-spacing:-0.5px" id="dep-total">0,00 $</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted2)">Pertes / Gaspillage</div>
+      <div style="font-size:18px;font-weight:800;color:var(--red)" id="dep-pertes">0,00 $</div>
+    </div>
+  </div>
+  <div id="dep-list"><div class="empty"><div class="empty-icon">📦</div><div class="empty-text">Aucune dépense ce mois</div></div></div>
+</div>
+
+<!-- DIESEL -->
+<div id="page-diesel" class="page">
+  <div class="ph"><div class="ph-title">Suivi <em>diesel</em></div><div class="ph-sub">Isuzu NRR 2018 — 20 pieds</div></div>
+  <div class="card">
+    <div class="card-lbl">Paramètres du camion</div>
+    <div class="field-row">
+      <div class="field"><label class="fl">Prix diesel ($/L)</label><input type="number" id="gas-prix" placeholder="1.75" step="0.01" inputmode="decimal" oninput="calcGas()"></div>
+      <div class="field"><label class="fl">Conso. (L/100km)</label><input type="number" id="gas-conso" placeholder="14" step="0.5" inputmode="decimal" oninput="calcGas()"></div>
+    </div>
+    <button class="btn btn-outline" onclick="saveGasParams()">Sauvegarder</button>
+  </div>
+  <div class="card">
+    <div class="card-lbl">Entrée du jour</div>
+    <div class="field-row">
+      <div class="field"><label class="fl">Date</label><input type="date" id="gas-date"></div>
+      <div class="field"><label class="fl">Kilomètres</label><input type="number" id="gas-km" placeholder="120" inputmode="numeric" oninput="calcGas()"></div>
+    </div>
+    <div class="live-box">
+      <div class="lb-lbl">Coût diesel aujourd'hui</div>
+      <div class="lb-val" id="gas-live">0,00 $</div>
+      <div class="lb-detail" id="gas-detail">Entrer les km et le prix/litre</div>
+    </div>
+    <button class="btn btn-orange" onclick="saveGas()">Enregistrer</button>
+  </div>
+  <div class="card">
+    <div class="card-lbl">Résumé du mois</div>
+    <div class="rows">
+      <div class="row"><span class="r-lbl">Total kilomètres</span><span class="r-val" id="gas-km-mois">0 km</span></div>
+      <div class="row"><span class="r-lbl">Litres consommés</span><span class="r-val" id="gas-litres">0 L</span></div>
+      <div class="row"><span class="r-lbl">Coût total diesel</span><span class="r-val red" id="gas-cout">0,00 $</span></div>
+      <div class="row"><span class="r-lbl">Coût moyen / km</span><span class="r-val" id="gas-km-cout">0 ¢</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-lbl">Historique</div>
+    <div id="gas-list"><div class="empty"><div class="empty-icon">⛽</div><div class="empty-text">Aucune entrée ce mois</div></div></div>
+  </div>
+</div>
+
+<!-- EMPLOYÉS -->
+<div id="page-emp" class="page">
+  <div class="ph"><div class="ph-title">Temps <em>&amp; salaires</em></div><div class="ph-sub">Arrivée, départ et paie automatique</div></div>
+  <div class="card">
+    <div class="card-lbl">Nouvelle entrée de temps</div>
+    <div class="field"><label class="fl">Employé *</label>
+      <select id="emp-nom">
+        <option value="">-- Sélectionner --</option>
+        <option>Nicolas (moi)</option>
+        <option>Miro</option>
+        <option>Employé principal</option>
+        <option>Autre</option>
+      </select>
+    </div>
+    <div class="field"><label class="fl">Date *</label><input type="date" id="emp-date"></div>
+    <div class="field-row">
+      <div class="field"><label class="fl">Arrivée</label><input type="time" id="emp-arrive" oninput="calcEmp()"></div>
+      <div class="field"><label class="fl">Départ</label><input type="time" id="emp-depart" oninput="calcEmp()"></div>
+    </div>
+    <div class="calc-box"><span class="cb-lbl">Heures calculées</span><span class="cb-val" style="color:var(--orange)" id="emp-h-calc">0h00</span></div>
+    <div class="calc-box"><span class="cb-lbl">Paie calculée</span><span class="cb-val" style="color:var(--green)" id="emp-pay-calc">0 $</span></div>
+    <div class="field"><label class="fl">Notes</label><input type="text" id="emp-notes" placeholder="Chantier Tremblay, formation..."></div>
+    <button class="btn btn-orange" onclick="saveEmp()">Enregistrer</button>
+  </div>
+  <div class="card">
+    <div class="card-lbl">Résumé du mois</div>
+    <div class="rows">
+      <div class="row"><span class="r-lbl">Total heures</span><span class="r-val orange" id="emp-h-mois">0h</span></div>
+      <div class="row"><span class="r-lbl">Paie totale versée</span><span class="r-val green" id="emp-pay-mois">0 $</span></div>
+      <div class="row"><span class="r-lbl">Jours travaillés</span><span class="r-val" id="emp-jours">0</span></div>
+    </div>
+  </div>
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-lbl">Entrées du mois</div><div class="sdiv-line"></div></div>
+  <div id="emp-list"><div class="empty"><div class="empty-icon">👷</div><div class="empty-text">Aucune entrée ce mois</div></div></div>
+</div>
+
+<!-- PARAMÈTRES -->
+<div id="page-params" class="page">
+  <div class="ph"><div class="ph-title">Para<em>mètres</em></div><div class="ph-sub">Personnaliser l'application</div></div>
+
+  <div class="param-section">
+    <div class="param-title">Taux horaires</div>
+    <div class="field-row">
+      <div class="field"><label class="fl">Nicolas ($/h)</label><input type="number" id="p-taux-nic" placeholder="45" inputmode="decimal" step="0.5"></div>
+      <div class="field"><label class="fl">Miro ($/h)</label><input type="number" id="p-taux-miro" placeholder="45" inputmode="decimal" step="0.5"></div>
+    </div>
+    <div class="field"><label class="fl">Employé principal ($/h)</label><input type="number" id="p-taux-emp" placeholder="35" inputmode="decimal" step="0.5"></div>
+  </div>
+
+  <div class="param-section">
+    <div class="param-title">Partage des profits</div>
+    <div class="field-row3">
+      <div class="field"><label class="fl">Nicolas (%)</label><input type="number" id="p-part-nic" placeholder="45" inputmode="numeric"></div>
+      <div class="field"><label class="fl">Miro (%)</label><input type="number" id="p-part-miro" placeholder="45" inputmode="numeric"></div>
+      <div class="field"><label class="fl">Michel (%)</label><input type="number" id="p-part-michel" placeholder="10" inputmode="numeric"></div>
+    </div>
+  </div>
+
+  <div class="param-section">
+    <div class="param-title">Charges fixes mensuelles</div>
+    <div class="field-row">
+      <div class="field"><label class="fl">Bail camion ($)</label><input type="number" id="p-f-bail" placeholder="1095" inputmode="numeric"></div>
+      <div class="field"><label class="fl">Comptable ($)</label><input type="number" id="p-f-compta" placeholder="1000" inputmode="numeric"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label class="fl">Michel min. ($/mois)</label><input type="number" id="p-f-michel" placeholder="800" inputmode="numeric"></div>
+      <div class="field"><label class="fl">Assurance ($)</label><input type="number" id="p-f-assurance" placeholder="450" inputmode="numeric"></div>
+    </div>
+    <div class="field"><label class="fl">Entretien équipement ($)</label><input type="number" id="p-f-entretien" placeholder="200" inputmode="numeric"></div>
+  </div>
+
+  <div class="param-section">
+    <div class="param-title">Remboursement Michel</div>
+    <div class="field-row">
+      <div class="field"><label class="fl">Montant total dû ($)</label><input type="number" id="p-michel-total" placeholder="150000" inputmode="numeric"></div>
+      <div class="field"><label class="fl">Montant déjà payé ($)</label><input type="number" id="p-michel-paye" placeholder="0" inputmode="numeric"></div>
+    </div>
+  </div>
+
+  <div class="param-section">
+    <div class="param-title">Mousse Elastochem</div>
+    <div class="field-row">
+      <div class="field"><label class="fl">Prix d'un kit ($)</label><input type="number" id="p-kit-prix" placeholder="2788.80" inputmode="decimal" step="0.01"></div>
+      <div class="field"><label class="fl">PC couverts / kit</label><input type="number" id="p-kit-pc" placeholder="4800" inputmode="numeric"></div>
+    </div>
+  </div>
+
+  <div class="param-section">
+    <div class="param-title">Diesel</div>
+    <div class="field-row">
+      <div class="field"><label class="fl">Prix/litre ($/L)</label><input type="number" id="p-diesel-prix" placeholder="1.75" inputmode="decimal" step="0.01"></div>
+      <div class="field"><label class="fl">Conso. camion (L/100km)</label><input type="number" id="p-diesel-conso" placeholder="14" inputmode="decimal" step="0.5"></div>
+    </div>
+  </div>
+
+  <div class="param-section">
+    <div class="param-title">Rappels &amp; échéances</div>
+    <div id="rappels-params"></div>
+    <button class="btn btn-outline" onclick="addRappel()" style="margin-top:8px">+ Ajouter un rappel</button>
+  </div>
+
+  <button class="btn btn-orange" onclick="saveParams()">Sauvegarder tous les paramètres</button>
+  <div style="height:12px"></div>
+</div>
+
+</div><!-- end app -->
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nb active" onclick="showPage(&#39;dash&#39;,this)">
+    <svg viewBox="0 0 22 22" fill="none" stroke="currentColor"><rect x="2" y="2" width="8" height="8" rx="1.5"></rect><rect x="12" y="2" width="8" height="8" rx="1.5"></rect><rect x="2" y="12" width="8" height="8" rx="1.5"></rect><rect x="12" y="12" width="8" height="8" rx="1.5"></rect></svg>
+    Tableau
+  </button>
+  <button class="nb" onclick="showPage(&#39;client&#39;,this)">
+    <svg viewBox="0 0 22 22" fill="none" stroke="currentColor"><path d="M3 19V8l8-5 8 5v11"></path><rect x="8" y="12" width="6" height="7" rx="1"></rect></svg>
+    Clients
+  </button>
+  <button class="nb" onclick="showPage(&#39;dep&#39;,this)">
+    <svg viewBox="0 0 22 22" fill="none" stroke="currentColor"><rect x="2" y="6" width="18" height="13" rx="2"></rect><path d="M2 10h18"></path><circle cx="16" cy="14" r="1.2" fill="currentColor" stroke="none"></circle></svg>
+    Dépenses
+  </button>
+  <button class="nb" onclick="showPage(&#39;diesel&#39;,this)">
+    <svg viewBox="0 0 22 22" fill="none" stroke="currentColor"><path d="M5 19V7a2 2 0 012-2h6a2 2 0 012 2v12"></path><line x1="4" y1="19" x2="18" y2="19"></line><path d="M15 9h2a1 1 0 011 1v5"></path><circle cx="18" cy="16" r="1.2" fill="currentColor" stroke="none"></circle></svg>
+    Diesel
+  </button>
+  <button class="nb" onclick="showPage(&#39;emp&#39;,this)">
+    <svg viewBox="0 0 22 22" fill="none" stroke="currentColor"><circle cx="11" cy="7" r="4"></circle><path d="M3 19c0-4.4 3.6-8 8-8s8 3.6 8 8"></path></svg>
+    Employé
+  </button>
+  <button class="nb" onclick="showPage(&#39;params&#39;,this)">
+    <svg viewBox="0 0 22 22" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="3"></circle><path d="M11 2v2M11 18v2M2 11h2M18 11h2M4.9 4.9l1.4 1.4M15.7 15.7l1.4 1.4M4.9 17.1l1.4-1.4M15.7 6.3l1.4-1.4"></path></svg>
+    Réglages
+  </button>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script src="./isolation rivale 0_files/chart.umd.js.download"></script>
+<script>
+// UTILS
+const fmt=n=>Math.round(n).toLocaleString('fr-CA')+' $';
+const fmtD=n=>n.toLocaleString('fr-CA',{minimumFractionDigits:2,maximumFractionDigits:2})+' $';
+const fmtF=n=>parseFloat(n||0).toFixed(1);
+const today=()=>new Date().toISOString().split('T')[0];
+const monthKey=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0')};
+const weekStart=()=>{const d=new Date(),day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);const nd=new Date(d);nd.setDate(diff);return nd.toISOString().split('T')[0]};
+
+async function db(k){try{const r=await window.storage.get(k);return r?JSON.parse(r.value):null}catch{return null}}
+async function sw(k,v){try{await window.storage.set(k,JSON.stringify(v))}catch{}}
+
+let dashPeriod='day';
+let chartInstance=null;
+let params={};
+let pendingPhotos=[];
+
+function toast(msg,ok=true){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast '+(ok?'ok':'err');t.style.display='block';
+  setTimeout(()=>t.style.display='none',2600);
+}
+
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='dash')refreshDash();
+  if(id==='client')refreshClients();
+  if(id==='dep'){refreshDepTotal();refreshDepList();}
+  if(id==='diesel')refreshGas();
+  if(id==='emp')refreshEmp();
+  if(id==='params')loadParamsForm();
+}
+
+function setPeriod(p,btn){
+  dashPeriod=p;
+  document.querySelectorAll('.ptab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  refreshDash();
+}
+
+function filterPeriod(arr,f){
+  const t=today(),m=monthKey(),w=weekStart();
+  if(dashPeriod==='day')return arr.filter(x=>x[f]===t);
+  if(dashPeriod==='week')return arr.filter(x=>x[f]&&x[f]>=w);
+  return arr.filter(x=>x[f]&&x[f].startsWith(m));
+}
+
+function getParams(){
+  return{
+    tauxNic:parseFloat(params.tauxNic)||45,
+    tauxMiro:parseFloat(params.tauxMiro)||45,
+    tauxEmp:parseFloat(params.tauxEmp)||35,
+    partNic:parseFloat(params.partNic)||45,
+    partMiro:parseFloat(params.partMiro)||45,
+    partMichel:parseFloat(params.partMichel)||10,
+    bail:parseFloat(params.bail)||1095,
+    compta:parseFloat(params.compta)||1000,
+    michelMois:parseFloat(params.michelMois)||800,
+    assurance:parseFloat(params.assurance)||450,
+    entretien:parseFloat(params.entretien)||200,
+    michelTotal:parseFloat(params.michelTotal)||150000,
+    michelPaye:parseFloat(params.michelPaye)||0,
+    kitPrix:parseFloat(params.kitPrix)||2788.80,
+    kitPc:parseFloat(params.kitPc)||4800,
+    dieselPrix:parseFloat(params.dieselPrix)||1.75,
+    dieselConso:parseFloat(params.dieselConso)||14,
+  };
+}
+
+async function refreshDash(){
+  const p=getParams();
+  const fixes=p.bail+p.compta+p.michelMois+p.assurance+p.entretien;
+
+  // Update fixed costs display
+  document.getElementById('p-bail').textContent=fmt(p.bail);
+  document.getElementById('p-compta').textContent=fmt(p.compta);
+  document.getElementById('p-michel').textContent=fmt(p.michelMois);
+  document.getElementById('p-assurance').textContent=fmt(p.assurance);
+  document.getElementById('p-entretien').textContent=fmt(p.entretien);
+  document.getElementById('p-total-fixes').textContent=fmt(fixes);
+
+  // Michel remboursement
+  const reste=Math.max(0,p.michelTotal-p.michelPaye);
+  const pctMichel=p.michelTotal>0?Math.min(100,Math.round(p.michelPaye/p.michelTotal*100)):0;
+  document.getElementById('michel-reste').textContent=fmt(reste);
+  document.getElementById('michel-fill').style.width=pctMichel+'%';
+  document.getElementById('michel-payé').textContent=fmt(p.michelPaye)+' payé';
+  document.getElementById('michel-total').textContent='sur '+fmt(p.michelTotal);
+
+  const [clients,deps,gas,emps,stock]=await Promise.all([db('ir-clients'),db('ir-deps'),db('ir-gas'),db('ir-emp'),db('ir-stock')]);
+  const C=clients||[],D=deps||[],G=gas||[],E=emps||[],S=parseFloat(stock)||0;
+  const m=monthKey();
+
+  const fc=filterPeriod(C,'date'),fd=filterPeriod(D,'date'),fg=filterPeriod(G,'date'),fe=filterPeriod(E,'date');
+  const rev=fc.reduce((s,x)=>s+x.profit,0);
+  const depAmt=fd.filter(x=>x.cat!=='Perte / Gaspillage').reduce((s,x)=>s+x.montant,0);
+  const dieselAmt=fg.reduce((s,x)=>s+x.cout,0);
+
+  // Employee costs with correct rates
+  const empCost=fe.reduce((s,x)=>{
+    let rate=p.tauxEmp;
+    if(x.nom==='Nicolas (moi)')rate=p.tauxNic;
+    else if(x.nom==='Miro')rate=p.tauxMiro;
+    return s+x.heures*rate;
+  },0);
+
+  const totalVar=depAmt+dieselAmt+empCost;
+  const net=rev-(dashPeriod==='month'?fixes:0)-totalVar;
+
+  // Stock
+  const mKits=C.filter(x=>x.date&&x.date.startsWith(m)).reduce((s,x)=>s+x.kits,0);
+  const remain=Math.max(0,S-mKits);
+  const avgKitsPerDay=mKits>0?(()=>{const days=new Set(C.filter(x=>x.date&&x.date.startsWith(m)).map(x=>x.date)).size;return days>0?mKits/days:0})():0;
+  const prevision=avgKitsPerDay>0?Math.round(remain/avgKitsPerDay)+' jours':(remain>0?'Suffisant':'Épuisé');
+
+  document.getElementById('d-rev').textContent=fmt(rev);
+  document.getElementById('d-rev-sub').textContent=fc.length+' contrat'+(fc.length!==1?'s':'');
+  document.getElementById('d-dep').textContent=fmt(totalVar);
+  document.getElementById('d-gas').textContent=fmtD(dieselAmt);
+  document.getElementById('d-km').textContent=Math.round(fg.reduce((s,x)=>s+x.km,0))+' km';
+  document.getElementById('d-emp-h').textContent=fmtF(fe.reduce((s,x)=>s+x.heures,0))+'h';
+  document.getElementById('d-emp-pay').textContent=fmt(empCost);
+  document.getElementById('d-count').textContent=fc.length;
+  document.getElementById('d-kits').textContent=fmtF(filterPeriod(C,'date').reduce((s,x)=>s+x.kits,0));
+  document.getElementById('d-mousse').textContent=fmt(filterPeriod(C,'date').reduce((s,x)=>s+x.kits,0)*p.kitPrix);
+  document.getElementById('d-pc').textContent=Math.round(fc.reduce((s,x)=>s+x.pc,0)).toLocaleString('fr-CA')+' pc';
+  document.getElementById('d-prevision').textContent=prevision;
+  document.getElementById('d-stock-lbl').textContent=fmtF(remain)+' kits restants';
+  const pct=S>0?Math.min(100,Math.round(remain/S*100)):0;
+  const sf=document.getElementById('d-stock-fill');
+  sf.style.width=pct+'%';sf.style.background=pct<20?'#FF453A':pct<40?'#E8922A':'#30D158';
+
+  // Net box
+  const nb=document.getElementById('d-net');
+  const cls=net>=0?'pos':'neg';
+  const pN=net*p.partNic/100,pM=net*p.partMiro/100,pMi=net*p.partMichel/100;
+  nb.innerHTML=`<div class="net-box ${cls}"><div class="net-lbl ${cls}">Profit net${dashPeriod==='month'?' — charges déduites':''}</div><div class="net-amount ${cls}">${fmt(net)}</div><div class="net-parts"><div class="net-part"><div class="np-lbl">Nicolas (${p.partNic}%)</div><div class="np-val">${fmt(pN)}</div></div><div class="net-part"><div class="np-lbl">Miro (${p.partMiro}%)</div><div class="np-val">${fmt(pM)}</div></div><div class="net-part"><div class="np-lbl">Michel (${p.partMichel}%)</div><div class="np-val">${fmt(pMi)}</div></div></div></div>`;
+
+  // Alerts
+  const az=document.getElementById('dash-alerts');
+  let alerts='';
+  if(pct<20&&S>0)alerts+=`<div class="alert">⚠ Stock bas — ${fmtF(remain)} kits restants. Commander chez Elastochem.</div>`;
+  if(net<0&&dashPeriod==='month')alerts+=`<div class="alert-red">⚠ Déficit ce mois — revenus insuffisants pour couvrir les charges.</div>`;
+  az.innerHTML=alerts;
+
+  // Rappels
+  const rappels=(await db('ir-rappels'))||[];
+  const rl=document.getElementById('rappels-list');
+  if(!rappels.length){rl.innerHTML='<div class="empty"><div class="empty-text">Aucun rappel — ajouter dans Réglages</div></div>';return;}
+  const now=new Date();
+  rl.innerHTML=rappels.map(r=>{
+    const d=new Date(r.date);
+    const diff=Math.round((d-now)/(1000*60*60*24));
+    let cls='rappel-ok',label='OK';
+    if(diff<0){cls='rappel-urgent';label='Expiré';}
+    else if(diff<=30){cls='rappel-warn';label=diff===0?'Aujourd\'hui':diff+' jours';}
+    else{label=diff+' jours';}
+    return `<div class="rappel-item"><div><div class="rappel-nom">${r.nom}</div><div class="rappel-date">${new Date(r.date).toLocaleDateString('fr-CA',{day:'numeric',month:'long',year:'numeric'})}</div></div><span class="rappel-badge ${cls}">${label}</span></div>`;
+  }).join('');
+
+  // Chart
+  buildChart(C,G,D,E,p);
+}
+
+async function buildChart(C,G,D,E,p){
+  const fixes=p.bail+p.compta+p.michelMois+p.assurance+p.entretien;
+  const now=new Date();
+  const months=[];
+  for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);months.push(d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0'));}
+  const labels=months.map(m=>{const d=new Date(m+'-01');return d.toLocaleDateString('fr-CA',{month:'short'});});
+  const data=months.map(m=>{
+    const mc=C.filter(x=>x.date&&x.date.startsWith(m));
+    const md=D.filter(x=>x.date&&x.date.startsWith(m)&&x.cat!=='Perte / Gaspillage');
+    const mg=G.filter(x=>x.date&&x.date.startsWith(m));
+    const me=E.filter(x=>x.date&&x.date.startsWith(m));
+    const rev=mc.reduce((s,x)=>s+x.profit,0);
+    const dep=md.reduce((s,x)=>s+x.montant,0)+mg.reduce((s,x)=>s+x.cout,0)+me.reduce((s,x)=>{
+      let rate=p.tauxEmp;
+      if(x.nom==='Nicolas (moi)')rate=p.tauxNic;
+      else if(x.nom==='Miro')rate=p.tauxMiro;
+      return s+x.heures*rate;
+    },0);
+    return Math.round(rev-fixes-dep);
+  });
+  if(chartInstance)chartInstance.destroy();
+  chartInstance=new Chart(document.getElementById('chart-mois'),{
+    type:'bar',
+    data:{labels,datasets:[{label:'Profit net',data,backgroundColor:data.map(v=>v>=0?'#E8922A':'#FF453A'),borderRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>Math.round(v).toLocaleString('fr-CA')+'$',font:{size:10},color:'#909088'},grid:{color:'rgba(255,255,255,0.05)'}},x:{ticks:{font:{size:11},color:'#909088'},grid:{display:false}}}}
+  });
+}
+
+// CLIENTS
+let pendingPhotosB64=[];
+
+function addPhotos(input){
+  const files=Array.from(input.files);
+  files.forEach(f=>{
+    const r=new FileReader();
+    r.onload=e=>{
+      pendingPhotosB64.push(e.target.result);
+      renderPhotoPreview();
+    };
+    r.readAsDataURL(f);
+  });
+}
+
+function renderPhotoPreview(){
+  const grid=document.getElementById('photo-preview');
+  grid.innerHTML=pendingPhotosB64.map((b64,i)=>`<img class="photo-thumb" src="${b64}" onclick="removePhoto(${i})" title="Cliquer pour supprimer">`).join('');
+}
+
+function removePhoto(i){pendingPhotosB64.splice(i,1);renderPhotoPreview();}
+
+async function saveClient(){
+  const nom=document.getElementById('c-nom').value.trim();
+  const profit=parseFloat(document.getElementById('c-profit').value)||0;
+  if(!nom){toast('Nom du client requis',false);return}
+  if(!profit){toast('Profit requis',false);return}
+  const item={id:Date.now(),date:document.getElementById('c-date').value||today(),nom,adresse:document.getElementById('c-adresse').value.trim(),ville:document.getElementById('c-ville').value.trim(),tel:document.getElementById('c-tel').value.trim(),profit,type:document.getElementById('c-type').value,pc:parseFloat(document.getElementById('c-pc').value)||0,ep:parseFloat(document.getElementById('c-ep').value)||0,kits:parseFloat(document.getElementById('c-kits').value)||0,duree:parseFloat(document.getElementById('c-duree').value)||0,notes:document.getElementById('c-notes').value.trim(),photos:pendingPhotosB64.slice()};
+  const arr=(await db('ir-clients'))||[];arr.push(item);await sw('ir-clients',arr);
+  ['c-nom','c-adresse','c-ville','c-tel','c-profit','c-pc','c-ep','c-kits','c-duree','c-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('c-type').value='';document.getElementById('c-date').value=today();
+  pendingPhotosB64=[];renderPhotoPreview();
+  toast('Chantier enregistré !');refreshClients();
+}
+
+async function deleteClient(id){
+  let arr=(await db('ir-clients'))||[];arr=arr.filter(x=>x.id!==id);await sw('ir-clients',arr);refreshClients();toast('Supprimé');
+}
+
+async function refreshClients(){
+  const p=getParams();
+  const arr=(await db('ir-clients'))||[];
+  const items=arr.filter(x=>x.date&&x.date.startsWith(monthKey())).sort((a,b)=>b.date.localeCompare(a.date));
+  const list=document.getElementById('client-list');
+  if(!items.length){list.innerHTML='<div class="empty"><div class="empty-icon">🏠</div><div class="empty-text">Aucun chantier ce mois</div></div>';return}
+  list.innerHTML=items.map(x=>{
+    const d=new Date(x.date+'T12:00:00');
+    const ds=d.toLocaleDateString('fr-CA',{weekday:'short',day:'numeric',month:'short'});
+    const photos=x.photos&&x.photos.length?`<div class="photo-grid" style="margin-top:10px">${x.photos.map(p=>`<img class="photo-thumb" src="${p}">`).join('')}</div>`:'';
+    return `<div class="li"><div class="li-top"><div><div class="li-name">${x.nom}</div><div class="li-meta">${ds}${x.adresse?' · '+x.adresse:''}${x.tel?' · '+x.tel:''}</div></div><div class="li-amount">${fmt(x.profit)}</div></div><div class="li-badges">${x.type?`<span class="badge badge-orange">${x.type}</span>`:''} ${x.pc?`<span class="badge badge-gray">${Math.round(x.pc)} pc</span>`:''} ${x.ep?`<span class="badge badge-gray">${x.ep} po</span>`:''} ${x.duree?`<span class="badge badge-gray">${x.duree}h</span>`:''} ${x.kits?`<span class="badge badge-gray">${x.kits} kit${x.kits>1?'s':''}</span>`:''}</div>${x.notes?`<div style="font-size:12px;color:var(--muted2);margin-top:9px;line-height:1.5">${x.notes}</div>`:''}${photos}<button class="btn-ghost" onclick="deleteClient(${x.id})" style="margin-top:10px">Supprimer</button></div>`;
+  }).join('');
+}
+
+// DÉPENSES
+async function saveDep(){
+  const desc=document.getElementById('dep-desc').value.trim();
+  const montant=parseFloat(document.getElementById('dep-montant').value)||0;
+  if(!desc){toast('Description requise',false);return}
+  if(!montant){toast('Montant requis',false);return}
+  const item={id:Date.now(),date:document.getElementById('dep-date').value||today(),desc,montant,cat:document.getElementById('dep-cat').value};
+  const arr=(await db('ir-deps'))||[];arr.push(item);await sw('ir-deps',arr);
+  document.getElementById('dep-desc').value='';document.getElementById('dep-montant').value='';
+  toast('Dépense ajoutée !');refreshDepTotal();refreshDepList();
+}
+
+async function deleteDep(id){
+  let arr=(await db('ir-deps'))||[];arr=arr.filter(x=>x.id!==id);await sw('ir-deps',arr);refreshDepTotal();refreshDepList();
+}
+
+async function updateStock(){
+  const v=parseFloat(document.getElementById('dep-stock').value);
+  if(isNaN(v)||v<0){toast('Valeur invalide',false);return}
+  await sw('ir-stock',v);document.getElementById('dep-stock').value='';toast('Stock mis à jour !');
+}
+
+async function refreshDepTotal(){
+  const arr=(await db('ir-deps'))||[];
+  const items=arr.filter(x=>x.date&&x.date.startsWith(monthKey()));
+  const total=items.reduce((s,x)=>s+x.montant,0);
+  const pertes=items.filter(x=>x.cat==='Perte / Gaspillage').reduce((s,x)=>s+x.montant,0);
+  document.getElementById('dep-total').textContent=fmtD(total);
+  document.getElementById('dep-pertes').textContent=fmtD(pertes);
+}
+
+async function refreshDepList(){
+  const arr=(await db('ir-deps'))||[];
+  const items=arr.filter(x=>x.date&&x.date.startsWith(monthKey())).sort((a,b)=>b.date.localeCompare(a.date));
+  const list=document.getElementById('dep-list');
+  if(!items.length){list.innerHTML='<div class="empty"><div class="empty-icon">📦</div><div class="empty-text">Aucune dépense ce mois</div></div>';return}
+  const grouped={};
+  items.forEach(x=>{if(!grouped[x.date])grouped[x.date]=[];grouped[x.date].push(x)});
+  list.innerHTML=Object.entries(grouped).sort((a,b)=>b[0].localeCompare(a[0])).map(([date,xs])=>{
+    const d=new Date(date+'T12:00:00');
+    const ds=d.toLocaleDateString('fr-CA',{weekday:'long',day:'numeric',month:'long'});
+    const dt=xs.reduce((s,x)=>s+x.montant,0);
+    return `<div class="card"><div class="exp-gh"><span class="exp-gdate">${ds}</span><span class="exp-gtotal">${fmtD(dt)}</span></div>${xs.map(x=>`<div class="exp-row"><div><div class="exp-name">${x.desc}</div><div class="exp-cat">${x.cat}</div></div><div style="display:flex;align-items:center;gap:10px"><span class="exp-amt">${fmtD(x.montant)}</span><button onclick="deleteDep(${x.id})" style="background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:4px;line-height:1">×</button></div></div>`).join('')}</div>`;
+  }).join('');
+}
+
+// DIESEL
+function calcGas(){
+  const km=parseFloat(document.getElementById('gas-km').value)||0;
+  const prix=parseFloat(document.getElementById('gas-prix').value)||0;
+  const conso=parseFloat(document.getElementById('gas-conso').value)||14;
+  const litres=km*conso/100,cout=litres*prix;
+  document.getElementById('gas-live').textContent=fmtD(cout);
+  document.getElementById('gas-detail').textContent=km>0&&prix>0?`${fmtF(litres)} L × ${prix.toFixed(2)} $/L — ${Math.round(km)} km`:'Entrer les km et le prix/litre';
+}
+
+async function saveGasParams(){
+  const prix=parseFloat(document.getElementById('gas-prix').value)||0;
+  const conso=parseFloat(document.getElementById('gas-conso').value)||14;
+  if(!prix){toast('Entrer le prix du litre',false);return}
+  params.dieselPrix=prix;params.dieselConso=conso;
+  await sw('ir-params',params);toast('Paramètres sauvegardés');
+}
+
+async function saveGas(){
+  const km=parseFloat(document.getElementById('gas-km').value)||0;
+  const prix=parseFloat(document.getElementById('gas-prix').value)||0;
+  const conso=parseFloat(document.getElementById('gas-conso').value)||14;
+  if(!km){toast('Entrer les km',false);return}
+  if(!prix){toast('Entrer le prix/litre',false);return}
+  const litres=km*conso/100,cout=litres*prix;
+  const arr=(await db('ir-gas'))||[];
+  arr.push({id:Date.now(),date:document.getElementById('gas-date').value||today(),km,prix,conso,litres,cout});
+  await sw('ir-gas',arr);document.getElementById('gas-km').value='';
+  toast('Kilométrage enregistré !');refreshGas();
+}
+
+async function deleteGas(id){
+  let arr=(await db('ir-gas'))||[];arr=arr.filter(x=>x.id!==id);await sw('ir-gas',arr);refreshGas();
+}
+
+async function refreshGas(){
+  const p=getParams();
+  if(!document.getElementById('gas-prix').value)document.getElementById('gas-prix').value=p.dieselPrix;
+  if(!document.getElementById('gas-conso').value)document.getElementById('gas-conso').value=p.dieselConso;
+  const arr=(await db('ir-gas'))||[];
+  const items=arr.filter(x=>x.date&&x.date.startsWith(monthKey()));
+  const tKm=items.reduce((s,x)=>s+x.km,0);
+  const tL=items.reduce((s,x)=>s+x.litres,0);
+  const tC=items.reduce((s,x)=>s+x.cout,0);
+  document.getElementById('gas-km-mois').textContent=Math.round(tKm).toLocaleString('fr-CA')+' km';
+  document.getElementById('gas-litres').textContent=fmtF(tL)+' L';
+  document.getElementById('gas-cout').textContent=fmtD(tC);
+  document.getElementById('gas-km-cout').textContent=tKm>0?Math.round(tC/tKm*100)+' ¢/km':'0 ¢/km';
+  const list=document.getElementById('gas-list');
+  const sorted=[...items].sort((a,b)=>b.date.localeCompare(a.date));
+  if(!sorted.length){list.innerHTML='<div class="empty"><div class="empty-icon">⛽</div><div class="empty-text">Aucune entrée ce mois</div></div>';return}
+  list.innerHTML=sorted.map(x=>{
+    const d=new Date(x.date+'T12:00:00');
+    const ds=d.toLocaleDateString('fr-CA',{weekday:'short',day:'numeric',month:'short'});
+    return `<div class="gas-row"><div><div style="font-size:14px;font-weight:600;color:var(--white)">${ds}</div><div style="font-size:12px;color:var(--muted2);margin-top:2px">${Math.round(x.km)} km · ${fmtF(x.litres)} L · ${x.prix.toFixed(2)} $/L</div></div><div style="display:flex;align-items:center;gap:10px"><span style="font-size:15px;font-weight:700;color:var(--red)">${fmtD(x.cout)}</span><button onclick="deleteGas(${x.id})" style="background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:4px;line-height:1">×</button></div></div>`;
+  }).join('');
+}
+
+// EMPLOYÉ
+function calcEmp(){
+  const p=getParams();
+  const a=document.getElementById('emp-arrive').value,d=document.getElementById('emp-depart').value;
+  const nom=document.getElementById('emp-nom').value;
+  if(!a||!d){document.getElementById('emp-h-calc').textContent='0h00';document.getElementById('emp-pay-calc').textContent='0 $';return}
+  const [ah,am]=a.split(':').map(Number),[dh,dm]=d.split(':').map(Number);
+  let mins=(dh*60+dm)-(ah*60+am);if(mins<0)mins+=1440;
+  const h=Math.floor(mins/60),m=mins%60;
+  let rate=p.tauxEmp;
+  if(nom==='Nicolas (moi)')rate=p.tauxNic;
+  else if(nom==='Miro')rate=p.tauxMiro;
+  document.getElementById('emp-h-calc').textContent=`${h}h${m.toString().padStart(2,'0')}`;
+  document.getElementById('emp-pay-calc').textContent=fmt(Math.round(mins/60*rate));
+}
+
+async function saveEmp(){
+  const p=getParams();
+  const nom=document.getElementById('emp-nom').value;
+  const arrive=document.getElementById('emp-arrive').value;
+  const depart=document.getElementById('emp-depart').value;
+  if(!nom){toast('Sélectionner un employé',false);return}
+  if(!arrive||!depart){toast('Heure d\'arrivée et départ requis',false);return}
+  const [ah,am]=arrive.split(':').map(Number),[dh,dm]=depart.split(':').map(Number);
+  let mins=(dh*60+dm)-(ah*60+am);if(mins<0)mins+=1440;
+  const heures=Math.round(mins/60*100)/100;
+  let rate=p.tauxEmp;
+  if(nom==='Nicolas (moi)')rate=p.tauxNic;
+  else if(nom==='Miro')rate=p.tauxMiro;
+  const item={id:Date.now(),date:document.getElementById('emp-date').value||today(),nom,arrive,depart,heures,taux:rate,paie:heures*rate,notes:document.getElementById('emp-notes').value.trim()};
+  const arr=(await db('ir-emp'))||[];arr.push(item);await sw('ir-emp',arr);
+  ['emp-arrive','emp-depart','emp-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('emp-nom').value='';
+  document.getElementById('emp-h-calc').textContent='0h00';document.getElementById('emp-pay-calc').textContent='0 $';
+  toast('Temps enregistré !');refreshEmp();
+}
+
+async function deleteEmp(id){
+  let arr=(await db('ir-emp'))||[];arr=arr.filter(x=>x.id!==id);await sw('ir-emp',arr);refreshEmp();
+}
+
+async function refreshEmp(){
+  const arr=(await db('ir-emp'))||[];
+  const items=arr.filter(x=>x.date&&x.date.startsWith(monthKey()));
+  const totalH=items.reduce((s,x)=>s+x.heures,0);
+  const totalPay=items.reduce((s,x)=>s+x.paie,0);
+  document.getElementById('emp-h-mois').textContent=fmtF(totalH)+'h';
+  document.getElementById('emp-pay-mois').textContent=fmt(totalPay);
+  document.getElementById('emp-jours').textContent=new Set(items.map(x=>x.date)).size;
+  const list=document.getElementById('emp-list');
+  const sorted=[...items].sort((a,b)=>b.date.localeCompare(a.date));
+  if(!sorted.length){list.innerHTML='<div class="empty"><div class="empty-icon">👷</div><div class="empty-text">Aucune entrée ce mois</div></div>';return}
+  list.innerHTML=sorted.map(x=>{
+    const d=new Date(x.date+'T12:00:00');
+    const ds=d.toLocaleDateString('fr-CA',{weekday:'short',day:'numeric',month:'short'});
+    const hh=Math.floor(x.heures),mm=Math.round((x.heures-hh)*60);
+    return `<div class="ti"><div class="ti-top"><div><div class="ti-name">${x.nom}</div><div class="ti-detail">${ds} · ${x.arrive} → ${x.depart} · ${x.taux||35}$/h${x.notes?' · '+x.notes:''}</div></div><div style="text-align:right"><div class="ti-h">${hh}h${mm.toString().padStart(2,'0')}</div><div style="font-size:12px;color:var(--green);font-weight:600;margin-top:2px">${fmt(x.paie)}</div></div></div><button class="btn-ghost" onclick="deleteEmp(${x.id})" style="margin-top:8px">Supprimer</button></div>`;
+  }).join('');
+}
+
+// PARAMS
+function loadParamsForm(){
+  const p=getParams();
+  document.getElementById('p-taux-nic').value=p.tauxNic;
+  document.getElementById('p-taux-miro').value=p.tauxMiro;
+  document.getElementById('p-taux-emp').value=p.tauxEmp;
+  document.getElementById('p-part-nic').value=p.partNic;
+  document.getElementById('p-part-miro').value=p.partMiro;
+  document.getElementById('p-part-michel').value=p.partMichel;
+  document.getElementById('p-f-bail').value=p.bail;
+  document.getElementById('p-f-compta').value=p.compta;
+  document.getElementById('p-f-michel').value=p.michelMois;
+  document.getElementById('p-f-assurance').value=p.assurance;
+  document.getElementById('p-f-entretien').value=p.entretien;
+  document.getElementById('p-michel-total').value=p.michelTotal;
+  document.getElementById('p-michel-paye').value=p.michelPaye;
+  document.getElementById('p-kit-prix').value=p.kitPrix;
+  document.getElementById('p-kit-pc').value=p.kitPc;
+  document.getElementById('p-diesel-prix').value=p.dieselPrix;
+  document.getElementById('p-diesel-conso').value=p.dieselConso;
+  loadRappelsParams();
+}
+
+async function loadRappelsParams(){
+  const rappels=(await db('ir-rappels'))||[];
+  const container=document.getElementById('rappels-params');
+  if(!rappels.length){container.innerHTML='<div style="font-size:13px;color:var(--muted2);margin-bottom:10px">Aucun rappel configuré</div>';return}
+  container.innerHTML=rappels.map((r,i)=>`<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px"><input type="text" value="${r.nom}" style="flex:1;padding:10px 12px;background:var(--card2);border:1px solid var(--border2);border-radius:9px;color:var(--white);font-size:14px;font-family:Inter,sans-serif" onchange="updateRappel(${i},'nom',this.value)"><input type="date" value="${r.date}" style="padding:10px 12px;background:var(--card2);border:1px solid var(--border2);border-radius:9px;color:var(--white);font-size:14px;font-family:Inter,sans-serif" onchange="updateRappel(${i},'date',this.value)"><button onclick="deleteRappel(${i})" style="background:none;border:none;color:var(--red);font-size:20px;cursor:pointer;padding:4px;line-height:1">×</button></div>`).join('');
+}
+
+let rappelsTemp=[];
+async function addRappel(){
+  const arr=(await db('ir-rappels'))||[];
+  arr.push({nom:'Nouveau rappel',date:today()});
+  await sw('ir-rappels',arr);
+  loadRappelsParams();
+}
+
+async function updateRappel(i,field,val){
+  const arr=(await db('ir-rappels'))||[];
+  if(arr[i])arr[i][field]=val;
+  await sw('ir-rappels',arr);
+}
+
+async function deleteRappel(i){
+  const arr=(await db('ir-rappels'))||[];
+  arr.splice(i,1);await sw('ir-rappels',arr);loadRappelsParams();toast('Rappel supprimé');
+}
+
+async function saveParams(){
+  params={
+    tauxNic:parseFloat(document.getElementById('p-taux-nic').value)||45,
+    tauxMiro:parseFloat(document.getElementById('p-taux-miro').value)||45,
+    tauxEmp:parseFloat(document.getElementById('p-taux-emp').value)||35,
+    partNic:parseFloat(document.getElementById('p-part-nic').value)||45,
+    partMiro:parseFloat(document.getElementById('p-part-miro').value)||45,
+    partMichel:parseFloat(document.getElementById('p-part-michel').value)||10,
+    bail:parseFloat(document.getElementById('p-f-bail').value)||1095,
+    compta:parseFloat(document.getElementById('p-f-compta').value)||1000,
+    michelMois:parseFloat(document.getElementById('p-f-michel').value)||800,
+    assurance:parseFloat(document.getElementById('p-f-assurance').value)||450,
+    entretien:parseFloat(document.getElementById('p-f-entretien').value)||200,
+    michelTotal:parseFloat(document.getElementById('p-michel-total').value)||150000,
+    michelPaye:parseFloat(document.getElementById('p-michel-paye').value)||0,
+    kitPrix:parseFloat(document.getElementById('p-kit-prix').value)||2788.80,
+    kitPc:parseFloat(document.getElementById('p-kit-pc').value)||4800,
+    dieselPrix:parseFloat(document.getElementById('p-diesel-prix').value)||1.75,
+    dieselConso:parseFloat(document.getElementById('p-diesel-conso').value)||14,
+  };
+  await sw('ir-params',params);
+  toast('Paramètres sauvegardés !');
+}
+
+// INIT
+async function init(){
+  const now=new Date();
+  document.getElementById('top-day').textContent=now.toLocaleDateString('fr-CA',{weekday:'long'});
+  document.getElementById('top-date').textContent=now.toLocaleDateString('fr-CA',{day:'numeric',month:'long',year:'numeric'});
+  ['c-date','dep-date','gas-date','emp-date'].forEach(id=>document.getElementById(id).value=today());
+  const saved=await db('ir-params');
+  if(saved)params=saved;
+  const p=getParams();
+  document.getElementById('gas-prix').value=p.dieselPrix;
+  document.getElementById('gas-conso').value=p.dieselConso;
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+  refreshDash();
+}
+init();
+</script>
+
+
+</body></html>
